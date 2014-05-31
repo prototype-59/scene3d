@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>scene3d  random graph</title>
+<script src="http://www.x3dom.org/download/x3dom.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/scene3d.jquery.js"></script>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
+<script>
+$(function() {
+		var myCanvas = $('#3dcanvas').scene3d({
+		width:"400",
+		height:"400px",
+		background: "#eeffff",
+		fontFamily: 'Arial',
+		fontSize: 0.4,
+		ViewpointPosition: '0,0,10'
+	});
+
+	$.getJSON( "actors.json", function( myGraph ) {	
+		myCanvas.addGraph({
+			type: 'random',
+			data: myGraph,
+			width: 5,
+			height: 5,
+			depth: 5
+		});
+	});	
+	
+	nodeClickHandler = function( gObj ) { alert ( $(gObj).data('bio') ); }
+	edgeClickHandler = function( gObj ) { alert ( $(gObj).data('movie') ); }
+});
+
+</script>	 
+</head>
+<body style="font-family: Helvetica, sans-serif;font-size: 12px;">
+<div><a href="index.html">Back to index</a></div>
+<h3>Random nodes graphh</h3>
+<div style="float:left;margin:20px;min-height:600px;">
+	<div id="3dcanvas"></div>
+</div>
+<div>
+<xmp>
+$(function() {
+  var myCanvas = $('#3dcanvas').scene3d({
+  width:"400",
+  height:"400px",
+  background: "#eeffff",
+  fontFamily: 'Arial',
+  fontSize: 0.4,
+  ViewpointPosition: '0,0,10'
+});
+
+$.getJSON( "actors.json", function( myGraph ) {	
+  myCanvas.addGraph({
+    type: 'random',
+    data: myGraph,
+    width: 5,
+    height: 5,
+    depth: 5
+  });
+});	
+	
+nodeClickHandler = function( gObj ) { alert ( $(gObj).data('bio') ); }
+edgeClickHandler = function( gObj ) { alert ( $(gObj).data('movie') ); }
+});
+</xmp>
+</div>
+<div>Click on a <strong>node</strong> or on an <strong>edge</strong> for more info. Click here to view <a href="actors.json">actors.json</a> file</div>
+</body>
+</html>

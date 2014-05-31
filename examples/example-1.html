@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>jqx3dom example 1</title>
+<script src="http://www.x3dom.org/download/x3dom.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/scene3d.jquery.js"></script>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
+<script>
+$(function() {
+		var myCanvas = $('#3dcanvas').scene3d({
+		width:"320px",
+		height:"320px",
+	});	
+	myCanvas.addBox ({x:0,y:0,z:0});
+});
+</script>	 
+</head>
+<body style="font-family: Helvetica, sans-serif;font-size: 12px;">
+<div><a href="index.html">Back to index</a></div>
+<h3>Setting up the stage</h3>
+<div style="float:left;margin:20px;min-height:600px;">
+	<div id="3dcanvas"></div>
+	<div style="clear:both;">&nbsp;</div>
+	<p><strong>left click and move</strong></p>
+<table style="border-collapse:collapse;" cellpadding="2" cellspacing="2" border="1">
+<tr><th colspan="2"><strong><h3>Camera navigation</h3></strong></th></tr>
+<tr><th colspan="2"><strong>Examine Mode (activate with key &#8216;e&#8217;):</strong></th></tr>
+<tr><th>Button</th><th>Function</th></tr>
+<tr><td>Left Button / Left Button + Shift</td><td>Rotate</td></tr>
+<tr><td>Mid Button / Left Button + Ctl</td><td>Pan</td></tr>
+<tr><td>Right Button / Wheel / Left Button + Alt</td><td>Zoom</td></tr>
+<tr><td>Left double click</td><td>Set center of rotation</td></tr>
+<tr><th colspan="2"><strong>Walk Mode (activate with key &#8216;w&#8217;):</strong></th</tr>
+<tr><th>Button</th><th>Function</th></tr>
+<tr><td>Left Button</td><td>Move forward</td></tr>
+<tr><td>Right Button</td><td>Move backward</td></tr>
+<tr><th colspan="2"><strong>Fly Mode (activate with key &#8216;f&#8217;):</strong></th</tr>
+<tr><th>Button</th><th>Function</th></tr>
+<tr><td>Left Button</td><td>Move forward</td></tr>
+<tr><td>Right Button</td><td>Move backward</td></tr>
+<tr><th colspan="2"><strong>Look at (activate with key &#8216;l&#8217;):</strong></th</tr>
+<tr><th>Button</th><th>Function</th></tr>
+<tr><td>Left Button</td><td>Move closer</td></tr>
+<tr><td>Right Button</td><td>Move back</td></tr>
+<tr><th colspan="2"><strong>Game Mode (activate with key &#8216;g&#8217;):</strong></th</tr>
+<tr><th>Movement</th><th>follows cursor or mouse movement</th></tr>
+<tr><th colspan="2"><strong>Non-interactive camera movement</strong></th</tr>
+<tr><th>Key</th><th>Function</th></tr>
+<tr><td>r</td><td>reset view</td></tr>
+<tr><td>a</td><td>show all</td></tr>
+<tr><td>u</td><td>upright</td></tr>
+</table>
+</div>
+<div>
+<xmp>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>jqx3dom example 1</title>
+
+<!-- libraries -->
+<script src="http://www.x3dom.org/download/x3dom.js"></script>
+<link rel='stylesheet' type='text/css' href='http://www.x3dom.org/download/x3dom.css'/>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="jquery.scene3d.js"></script>
+
+<script>
+$(function() {
+  var myCanvas = $('#3dcanvas').scene3d();
+  myCanvas.addBox ();
+});
+</script>	 
+</head>
+
+<body>
+	<div id="3dcanvas"></div>
+</body>
+</html>
+</xmp>
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+ {
+	"node": [
+        {
+            "id": "n1",
+            "color": "#0000ff",
+            "label": "Brad Pitt",
+            "data-bio": "born in Shawnee, Oklahoma",
+            "onclick": "nodeClickHandler(this)"
+        },
+        {
+            "id": "n2",
+            "color": "#ff0000",
+            "label": "Angelina Jolie",
+            "data-bio": "born in Los Angeles, California",
+            "onclick": "nodeClickHandler(this)"
+        },
+        {
+            "id": "n3",
+            "color": "#0000ff",
+            "label": "Johnny Depp",
+            "data-bio": "Born John Christopher Depp in Owensboro, Kentucky, on June 9, 1963.",
+            "onclick": "nodeClickHandler(this)"
+        }
+        ,
+        {
+            "id": "n4",
+            "color": "#ff0000",
+            "label": "Rebecca Hall",
+            "data-bio": "Rebecca Hall was born on May 3, 1982 in London, England.",
+            "onclick": "nodeClickHandler(this)"
+        },
+        {
+            "id": "n5",
+            "color": "#ff0000",
+            "label": "Gwyneth Paltrow",
+            "data-bio": "Gwyneth Paltrow was born in 1972 in Los Angeles.",
+            "onclick": "nodeClickHandler(this)" 
+        }
+    ],
+	"edge": [
+        {
+            "source": "n1",
+            "target": "n2",
+            "label": "Mr. & Mrs. Smith",
+            "data-movie": "Mr. & Mrs. Smith is a 2005 American romantic comedy action film.",
+            "onclick": "edgeClickHandler(this)",
+            "linewidth": 3,
+            "color": "#ffdd00",
+            "fontColor": "#dddddd",
+            "fontSize":0.4
+        },
+        {
+            "source": "n2",
+            "target": "n3",
+            "label": "The Tourist",
+            "data-movie": "Revolves around Frank, and extraordinary Elise.",
+            "onclick": "edgeClickHandler(this)",
+            "fontColor": "#dddddd",
+            "fontSize":0.4
+        },
+        {
+            "source": "n3",
+            "target": "n4",
+            "label": "Transcendence",
+            "data-movie": "A scientist drive for artificial intelligence.",
+            "onclick": "edgeClickHandler(this)",
+            "fontColor": "#dddddd",
+            "fontSize":0.4
+        },
+        {
+            "source": "n4",
+            "target": "n5",
+            "label": "Iron Man 3",
+            "data-movie": "Tony Stark start an odyssey of rebuilding and retribution.",
+			"onclick": "edgeClickHandler(this)",
+            "fontColor": "#dddddd",
+            "fontSize":0.4
+        }
+    ]
+}

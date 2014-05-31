@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>jqx3dom example 2</title>
+<script src="http://www.x3dom.org/download/x3dom.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/scene3d.jquery.js"></script>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
+<script>
+$(function() {
+		var myCanvas = $('#3dcanvas').scene3d({
+		width:"400px",
+		height:"400px",
+		background: "#eeffee",
+		fontFamily: 'Arial',
+		fontSize: .4,
+		ViewpointPosition: '4 4 10',
+		ViewpointOrientation: '-0.5 .5 0 0.4',  
+		showStat:	true,
+		showLog:	true,
+		id:			"x3dElement"
+	});
+	myCanvas.addLine({x1:-4,x2:4,color:'#ff0000'});
+	myCanvas.addText({x:4,label:'x'});
+	myCanvas.addLine({y1:-4,y2:4,color:'#00ff00'});
+	myCanvas.addText({y:4,label:'y'});
+	myCanvas.addLine({z1:-4,z2:4,color:'#0000ff'});
+	myCanvas.addText({z:4,label:'z'});
+	
+	myCanvas.addBox ({x:-1,y:2,z:2});
+});
+</script>	 
+</head>
+<body style="font-family: Helvetica, sans-serif;font-size: 12px;">
+<div><a href="index.html">Back to index</a></div>
+<h3>Canvas options</h3>
+&nbsp;&nbsp;&nbsp;left click and move, r - restes the view<br>
+<div style="float:left;margin:20px;min-height:600px;">
+	<div id="3dcanvas"></div>
+</div>
+<div>
+<xmp>
+var myCanvas = $('#3dcanvas').scene3d({
+  width:"400px",
+  height:"400px",
+  background: "#eeffee",
+  fontFamily: 'Arial',
+  fontSize: 0.4,
+  ViewpointPosition: '4 4 10',
+  ViewpointOrientation: '-0.5 .5 0 0.4',
+  showStat: true,
+  showLog: true,
+  id: "x3dElement"
+});
+</xmp>
+</div>
+</body>
+</html>

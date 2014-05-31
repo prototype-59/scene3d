@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>scene3d example 3</title>
+<script src="http://www.x3dom.org/download/x3dom.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/scene3d.jquery.js"></script>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
+<script>
+
+$(function() {
+	var myCanvas = $('#3dcanvas').scene3d({
+		width:"340px",
+		height:"340px",
+		background: "#eeffee",
+		ViewpointPosition: '-4 -2 12 ',
+		ViewpointOrientation: '-2 4 -2 -.4',
+	});
+	// 3D coordinate system
+	myCanvas.addLine({x1:-4,x2:4,color:'#ff0000'});
+	myCanvas.addLine({y1:-4,y2:4,color:'#00ff00'});
+	myCanvas.addLine({z1:-4,z2:4,color:'#0000ff'})
+	
+	myCanvas.addSphere ({
+		x:1.2, y:0, z:2, 
+		radius:1, color:'#ff00ff',
+		id:'mySphere',
+		onclick:'sphereClickHandler(this)',
+		"data-description":'This is my sphere!'
+	}); 
+	myCanvas.addBox ({x:1.2,y:1,z:2,width:1,depth:1,height:1,color:'#efef00'});
+	myCanvas.addCone ({x:1.2,y:2,z:2,color:'#0000ff',label:'3D Objects'});
+	myCanvas.addCylinder ({x:1.2,y:-2,z:2,radius:0.5,height:2,color:'#00aaff'});
+	
+	sphereClickHandler = function( gObj ) {
+		alert ( $(gObj).data('description') );
+	}
+});
+
+</script>	 
+</head>
+<body style="font-family: Helvetica, sans-serif;font-size: 12px;">
+<div><a href="index.html">Back to index</a></div>
+<h3>3D nodes: line, Box, Cone, Cylinder and clickable Sphere</h3>
+<div style="float:left;margin:20px;min-height:600px;">
+	<div id="3dcanvas"></div>
+</div>
+<div>
+<!-- ----------------------------------------------- -->
+<xmp>
+
+$(function() {
+  var myCanvas = $('#3dcanvas').scene3d({
+    width:"340px",
+    height:"340px",
+    background: "#eeffee",
+    ViewpointPosition: '-4 -2 12 ',
+    ViewpointOrientation: '-2 4 -2 -.4',
+  });
+  // 3D coordinate system
+  myCanvas.addLine({x1:-4,x2:4,color:'#ff0000'});
+  myCanvas.addLine({y1:-4,y2:4,color:'#00ff00'});
+  myCanvas.addLine({z1:-4,z2:4,color:'#0000ff'})
+	
+	myCanvas.addSphere ({
+		x:1.2, y:0, z:2, 
+		radius:1, color:'#ff00ff',
+		id:'mySphere',
+		onclick:'sphereClickHandler(this)',
+		"data-description":'This is my sphere!'
+	}); 
+  myCanvas.addBox ({x:1.2,y:1,z:2,width:1,depth:1,height:1,color:'#efef00'});
+  myCanvas.addCone ({x:1.2,y:2,z:2,color:'#0000ff',label:'3D Objects'});
+  myCanvas.addCylinder ({x:1.2,y:-2,z:2,radius:0.5,height:2,color:'#00aaff'});
+	
+  // handle clicks
+  sphereClickHandler = function( gObj ) {
+		alert ( $(gObj).data('description') );
+	}
+});
+
+</xmp>
+<!-- ----------------------------------------------- -->
+
+</div>
+</body>
+</html>

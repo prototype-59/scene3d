@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>scene3d cuboid nodes graph</title>
+<script src="http://www.x3dom.org/download/x3dom.js"></script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/scene3d.jquery.js"></script>
+<link rel='stylesheet' type='text/css' href='../x3dom.css'/>
+<script>
+$(function() {
+		var myCanvas = $('#3dcanvas').scene3d({
+		width:"500",
+		height:"500",
+		background: "#eeffff",
+		fontFamily: 'Arial',
+		fontSize: 0.4,
+		ViewpointPosition: '60 50 170',
+		ViewpointOrientation: '-0.5 0.5 0 0.5',
+	});
+
+	$.getJSON( "miserables.json", function( myGraph ) {	
+		myCanvas.addGraph({
+			type: 'cuboid',
+			radius: 2,
+			data: myGraph,
+			width: 100,
+			height: 100,
+			depth: 100,
+			fontSize:2,
+			labeloffset:2
+			
+		});
+	});	
+});
+
+</script>	 
+</head>
+<body style="font-family: Helvetica, sans-serif;font-size: 12px;">
+<div><a href="index.html">Back to index</a></div>
+<h3>3D Cuboid nodes graph</h3>
+<p>dataset: Les Miserables: coappearance weighted network of characters in the novel Les Miserables. D. E. Knuth, The Stanford GraphBase: A Platform for Combinatorial Computing, Addison-Wesley, Reading, MA (1993). </p>
+<div style="float:left;margin:20px;min-height:600px;">
+	<div id="3dcanvas"></div>
+</div>
+<div>
+<xmp>
+$(function() {
+  var myCanvas = $('#3dcanvas').scene3d({
+    width:"500",
+    height:"500",
+    background: "#eeffff",
+    fontFamily: 'Arial',
+    fontSize: 0.4,
+    ViewpointPosition: '60 50 170',
+    ViewpointOrientation: '-0.5 0.5 0 0.5',
+  });
+
+  $.getJSON( "miserables.json", function( myGraph ) {	
+    myCanvas.addGraph({
+      type: 'cuboid',
+      radius: 2,
+      data: myGraph,
+      width: 100,
+      height: 100,
+      depth: 100,
+      fontSize:2,
+      labeloffset:2		
+    });
+  });	
+});
+</xmp>
+</div>
+<div>Click here to view <a href="miserables.json">miserables.json</a> file</div>
+</body>
+</html>
