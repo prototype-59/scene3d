@@ -2,11 +2,10 @@
 
 ![canvas example](http://www.livereference.org/scene3d/images/scene3d-example.jpg)
 
-SCENE3D is an 3D interactive graphics jQuery plugin based on HTML5 and X3DOM aimed for rapid and effortless prototyping of 3D scenes for the web.
+SCENE3D is an 3D interactive graphics plugin for jQuery based on HTML5 and X3DOM aimed for rapid and effortless prototyping of 3D scenes for the web.
 
 ## Example and usage
 
-A quick and simple introduction
 
 ### HTML
 
