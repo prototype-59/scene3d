@@ -1,7 +1,7 @@
 {
   "name": "scene3d",
   "title": "3D graphics for jQuery",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "jQuery plugin for creating 3D interactive graphics in X3DOM framework",
   "homepage": "https://github.com/prototype-59/scene3d",
   "demo": "http://www.livereference.org/scene3d/",
