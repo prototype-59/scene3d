@@ -388,7 +388,7 @@
 		this.minCoords = new Vector (Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY);
 	}
 	
-	function ForceDirected( position)
+	function ForceDirected( position )
 	{
 		this.m = fdSettings.m;			// mass
 		this.p = position;				// position
