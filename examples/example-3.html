@@ -12,10 +12,10 @@
 
 $(function() {
 	var myCanvas = $('#3dcanvas').scene3d({
-		width:"340px",
-		height:"340px",
+		width:"400px",
+		height:"400px",
 		background: "#eeffee",
-		ViewpointPosition: '-4 -2 12 ',
+		ViewpointPosition: '-4 -2 12',
 		ViewpointOrientation: '-2 4 -2 -.4',
 	});
 	// 3D coordinate system
@@ -34,6 +34,10 @@ $(function() {
 	myCanvas.addCone ({x:1.2,y:2,z:2,color:'#0000ff',label:'3D Objects'});
 	myCanvas.addCylinder ({x:1.2,y:-2,z:2,radius:0.5,height:2,color:'#00aaff'});
 	
+	$('#remove').on('click', function () {
+		myCanvas.removeShape ( '#mySphere' );
+	});
+	
 	sphereClickHandler = function( gObj ) {
 		alert ( $(gObj).data('description') );
 	}
@@ -46,6 +50,7 @@ $(function() {
 <h3>3D nodes: line, Box, Cone, Cylinder and clickable Sphere</h3>
 <div style="float:left;margin:20px;min-height:600px;">
 	<div id="3dcanvas"></div>
+	<div><button id='remove'>remove sphere</button></div>
 </div>
 <div>
 <!-- ----------------------------------------------- -->
@@ -53,8 +58,8 @@ $(function() {
 
 $(function() {
   var myCanvas = $('#3dcanvas').scene3d({
-    width:"340px",
-    height:"340px",
+    width:"400px",
+    height:"400px",
     background: "#eeffee",
     ViewpointPosition: '-4 -2 12 ',
     ViewpointOrientation: '-2 4 -2 -.4',
@@ -75,12 +80,20 @@ $(function() {
   myCanvas.addCone ({x:1.2,y:2,z:2,color:'#0000ff',label:'3D Objects'});
   myCanvas.addCylinder ({x:1.2,y:-2,z:2,radius:0.5,height:2,color:'#00aaff'});
 	
-  // handle clicks
+  // remove sphere click handler
+  $('#remove').on('click', function () {
+    myCanvas.removeShape ( '#mySphere' );
+  });
+	
+  // handle clicks on sphere
   sphereClickHandler = function( gObj ) {
 		alert ( $(gObj).data('description') );
 	}
 });
-
+...
+...
+...
+<button id='remove'>remove sphere</button>
 </xmp>
 <!-- ----------------------------------------------- -->
 

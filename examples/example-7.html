@@ -4,15 +4,17 @@
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 <meta charset="utf-8">
 <title>scene3d cuboid nodes graph</title>
-<script src="http://www.x3dom.org/download/x3dom.js"></script>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- <script src="http://www.x3dom.org/download/x3dom.js"></script> 
+<script src="http://code.jquery.com/jquery-latest.js"></script> -->
+<script src="js/x3dom.js"></script>
+<script src="js/jquery-latest.js"></script>
 <script src="js/scene3d.jquery.js"></script>
-<link rel='stylesheet' type='text/css' href='../x3dom.css'/>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
 <script>
 $(function() {
 		var myCanvas = $('#3dcanvas').scene3d({
-		width:"500",
-		height:"500",
+		width:"640",
+		height:"640",
 		background: "#eeffff",
 		fontFamily: 'Arial',
 		fontSize: 0.4,
@@ -22,6 +24,7 @@ $(function() {
 
 	$.getJSON( "miserables.json", function( myGraph ) {	
 		myCanvas.addGraph({
+			id: 'MyGraph',
 			type: 'cuboid',
 			radius: 2,
 			data: myGraph,
@@ -29,8 +32,7 @@ $(function() {
 			height: 100,
 			depth: 100,
 			fontSize:2,
-			labeloffset:2
-			
+			labeloffset:2		
 		});
 	});	
 });

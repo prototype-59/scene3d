@@ -35,6 +35,20 @@
             "label": "Gwyneth Paltrow",
             "data-bio": "Gwyneth Paltrow was born in 1972 in Los Angeles.",
             "onclick": "nodeClickHandler(this)" 
+        },
+        {
+            "id": "n6",
+            "color": "#0000ff",
+            "label": "Robert Downey Jr.",
+            "data-bio": "Born in Manhattan, New York, on April 4, 1965",
+            "onclick": "nodeClickHandler(this)" 
+        },
+        {
+            "id": "n7",
+            "color": "#0000ff",
+            "label": "Alan Rickman",
+            "data-bio": "Alan Sidney Patrick Rickman was born on February 21, 1946, in Hammersmith, London, England",
+            "onclick": "nodeClickHandler(this)" 
         }
     ],
 	"edge": [
@@ -46,8 +60,17 @@
             "onclick": "edgeClickHandler(this)",
             "linewidth": 3,
             "color": "#ffdd00",
-            "fontColor": "#dddddd",
-            "fontSize":0.4
+            "fontColor": "#dddddd"
+        },
+        {
+            "source": "n1",
+            "target": "n6",
+            "label": "Less Than Zero",
+            "data-movie": "A college freshman returns to L.A. for the holidays at his ex-girlfriend's request.",
+            "onclick": "edgeClickHandler(this)",
+            "linewidth": 3,
+            "color": "#ffdd00",
+            "fontColor": "#dddddd"
         },
         {
             "source": "n2",
@@ -55,8 +78,7 @@
             "label": "The Tourist",
             "data-movie": "Revolves around Frank, and extraordinary Elise.",
             "onclick": "edgeClickHandler(this)",
-            "fontColor": "#dddddd",
-            "fontSize":0.4
+            "fontColor": "#dddddd"
         },
         {
             "source": "n3",
@@ -64,8 +86,7 @@
             "label": "Transcendence",
             "data-movie": "A scientist drive for artificial intelligence.",
             "onclick": "edgeClickHandler(this)",
-            "fontColor": "#dddddd",
-            "fontSize":0.4
+            "fontColor": "#dddddd"
         },
         {
             "source": "n4",
@@ -73,8 +94,23 @@
             "label": "Iron Man 3",
             "data-movie": "Tony Stark start an odyssey of rebuilding and retribution.",
 			"onclick": "edgeClickHandler(this)",
-            "fontColor": "#dddddd",
-            "fontSize":0.4
+            "fontColor": "#dddddd"
+        },
+		{
+            "source": "n5",
+            "target": "n6",
+            "label": "Iron Man 2",
+            "data-movie": "Tony Stark faces pressure from the government to share his technology with the military.",
+			"onclick": "edgeClickHandler(this)",
+            "fontColor": "#dddddd"
+        },
+		{
+            "source": "n6",
+            "target": "n7",
+            "label": " A Promise",
+            "data-movie": "A romantic drama set in Germany just before WWI.",
+			"onclick": "edgeClickHandler(this)",
+            "fontColor": "#dddddd"
         }
     ]
 }

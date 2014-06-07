@@ -20,35 +20,66 @@
 			x3domInit(element, options);
 		});
 	};
-
-	/* private functions
-	--------------------------------------------------------------------------*/
 	
+	/* private constants
+	--------------------------------------------------------------------------*/
 	var NODE_COLOR = "#cccccc";
 	var FONT_COLOR = "#000000";
 	var FONT_FAMILY = 'SERIF';
 	var FONT_SIZE = .5;
 	var RADIUS = .1;
+	var MIN_RADIUS = 0.00001;
 	var ANIMATION_CODE = '<timeSensor DEF="clock" cycleInterval="16" loop="true"></timeSensor>\
 		<OrientationInterpolator DEF="spinThings" key="0 0.25 0.5 0.75 1" keyValue="0 1 0 0  0 1 0 1.57079  0 1 0 3.14159  0 1 0 4.71239  0 1 0 6.28317"></OrientationInterpolator>\
         <ROUTE fromNode="clock" fromField="fraction_changed" toNode="spinThings" toField="set_fraction"></ROUTE>\
     	<ROUTE fromNode="spinThings" fromField="value_changed" toNode="rotationArea" toField="set_rotation"></ROUTE>';
-	
+
+	/* private functions
+	--------------------------------------------------------------------------*/
+	/* Vector algebra
+	-----------------------------------------------------------------------------*/
+	function Vector(x, y, z) {
+		this.x = x; this.y = y; this.z = z; 
+	}
+	Vector.prototype.add = function(V) { 
+		return new Vector(this.x + V.x, this.y + V.y, this.z + V.z); 
+	}
+	Vector.prototype.subtract = function(V) {
+		return new Vector(this.x - V.x, this.y - V.y, this.z - V.z); 
+	}
+	Vector.prototype.multiply = function(n) { 
+		return new Vector(this.x * n, this.y * n, this.z * n); 
+	}
+	Vector.prototype.divide = function(n) { 
+		return new Vector(this.x / n, this.y / n, this.z / n); 
+	}
+	Vector.prototype.radius = function() {
+	 return Math.max(MIN_RADIUS, Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z)); 
+	 }
+	Vector.prototype.normalise = function() {
+		return this.divide(this.radius()); 
+	};
+	Vector.prototype.maximum = function(V) {
+		return new Vector (Math.max(this.x, V.x), Math.max(this.y, V.y), Math.max(this.z, V.z));
+	}
+	Vector.prototype.minimum = function(V) {
+		return new Vector (Math.min(this.x, V.x), Math.min(this.y, V.y), Math.min(this.z, V.z));
+	}
+
+	Vector.prototype.coordTranslate = function( width, height, depth, min, max ) {
+		return new Vector (
+			max.x == min.x ? max.x : (((this.x - min.x) * (width)) / ( max.x - min.x ) ) - width/2,
+			max.y == min.y ? max.y : (((this.y - min.y) * (height)) / ( max.y - min.y ) ) - height/2,
+			max.z == min.z ? max.z : (((this.z - min.z) * (depth)) / ( max.z - min.z ) ) - depth/2
+		);
+	}
+		
 	// hex to RGB converter
 	function hex2rgb( hex ) {
 		hex = (hex.substr(0,1)=="#") ? hex.substr(1) : hex;
 		return [parseInt(hex.substr(0,2), 16)/255, parseInt(hex.substr(2,2), 16)/255, parseInt(hex.substr(4,2), 16)/255];
 	};	
-		
-	// change existing arguments
-	function setArgs (oDefault, oArg)
-	{
-		$.each( oArg, function( key, value ) {
-			oDefault[key] = value;
-		});
-		return oDefault;
-	}
-
+	
 	function x3domInit(elem, options) {
 		var animationCode = options.sceneAnimation ? ANIMATION_CODE : '';
 		var xmlx3d = $($.parseXML( '\
@@ -62,6 +93,12 @@
 		xmlx3d.find('x3d').attr('showStat', options.showStat);
 		xmlx3d.find('x3d').attr('showLog', options.showLog);		
 		xmlx3d.find('Background').attr('skyColor', hex2rgb(options.background));
+		xmlx3d.find('Background').attr('backurl',options.backurl);
+		xmlx3d.find('Background').attr('topurl',options.topurl);
+		xmlx3d.find('Background').attr('bottomurl',options.bottomurl);
+		xmlx3d.find('Background').attr('fronturl',options.fronturl);
+		xmlx3d.find('Background').attr('lefturl',options.lefturl);
+		xmlx3d.find('Background').attr('righturl',options.righturl);
 		xmlx3d.find('Viewpoint').attr('orientation', options.ViewpointOrientation);
 		xmlx3d.find('Viewpoint').attr('position', options.ViewpointPosition);
 		var x3dElem = (new XMLSerializer()).serializeToString(xmlx3d[0]);
@@ -69,7 +106,6 @@
 		FONT_SIZE = options.fontSize;
 		elem.append(x3dElem);
 	};
-	
 	function rndNumber (min, max)
 	{
 		return (Math.random() * (max - min)) + min;
@@ -78,6 +114,10 @@
 	/* DRAWING
 	------------------------------------------------------------------------ */
 
+	function createGroup ( id ) {
+		return $('<group id="'+id+'"></group>');
+	}
+	
 	function setLabel ( oLabelAttr ) {
 		var z = oLabelAttr.z + oLabelAttr.labeloffset;
 		var label = '\
@@ -96,7 +136,7 @@
 		var oAttr = {
 			x:0, y:0, z:0, label:'',
 			fontFamily:FONT_FAMILY, fontColor:FONT_COLOR, fontSize:FONT_SIZE};
-		if (oArg != null) { oAttr = setArgs (oAttr, oArg); }
+		if (oArg != null) { $.extend(true, oAttr, oArg); }
 		
 		var gObj = $('\
 			<transform translation="' + oAttr.x + ',' + oAttr.y + ',' + oAttr.z + '">\<shape>\
@@ -120,7 +160,7 @@
 			fontColor:FONT_COLOR,
 			fontSize:FONT_SIZE
 		};
-		oAttr = setArgs (oAttr, oArg);
+		$.extend(true, oAttr, oArg);
 		var oText = oAttr;
 		oText.x = (oAttr.x1+oAttr.x2) / 2;
 		oText.y = (oAttr.y1+oAttr.y2) / 2;
@@ -149,7 +189,7 @@
 			label:'', labeloffset: 0.1,
 			fontFamily:FONT_FAMILY, fontColor:FONT_COLOR, fontSize:FONT_SIZE
 		};
-		oAttr = setArgs (oAttr, oArg);
+		$.extend(true, oAttr, oArg);
 		var label = (oAttr.label.length > 0) ? setLabel ( oAttr ) : '';
 		var gObj = $('\
 			<transform translation="' + oAttr.x + ' ' + oAttr.y + ' ' + oAttr.z + '">\
@@ -157,6 +197,7 @@
 			<Sphere radius="'+oAttr.radius+'"></Sphere></shape>\
 			</transform>'+label);
 		if (oAttr.id) { $(gObj).find('shape').attr("id", oAttr.id); } 
+		if (oAttr.class) { $(gObj).find('shape').attr("class", oAttr.class); } 
 		if (oAttr.onclick) { $(gObj).find('shape').attr("onclick", oAttr.onclick); } 
 		// find data-* attribute
 		$.each( oAttr, function( key, value ) {
@@ -171,7 +212,7 @@
 			label:'', labeloffset: 0.1,
 			fontFamily:FONT_FAMILY, fontColor:FONT_COLOR, fontSize:FONT_SIZE
 		};
-		oAttr = setArgs (oAttr, oArg);
+		$.extend(true, oAttr, oArg);
 		var label = (oAttr.label.length > 0) ? setLabel ( oAttr ) : '';
 		var gObj = $('\
 			<transform translation="' + oAttr.x + ' ' + oAttr.y + ' ' + oAttr.z + '">\
@@ -192,7 +233,7 @@
 			label:'', labeloffset: 0.1,
 			fontFamily:FONT_FAMILY,fontColor:FONT_COLOR,fontSize:FONT_SIZE
 		};
-		oAttr = setArgs (oAttr, oArg);
+		$.extend(true, oAttr, oArg);
 		var label = (oAttr.label.length > 0) ? setLabel ( oAttr ) : '';
 		var gObj = $('\
 			<transform translation="' + oAttr.x + ' ' + oAttr.y + ' ' + oAttr.z + '">\
@@ -213,7 +254,7 @@
 			label:'', labeloffset: 0.1,
 			fontFamily:FONT_FAMILY,fontColor:FONT_COLOR,fontSize:FONT_SIZE
 		};
-		oAttr = setArgs (oAttr, oArg);
+		$.extend(true, oAttr, oArg);
 		var label = (oAttr.label.length > 0) ? setLabel ( oAttr ) : '';
 		var gObj = $('\
 			<transform translation="' + oAttr.x + ' ' + oAttr.y + ' ' + oAttr.z + '">\
@@ -229,7 +270,7 @@
 	}
 	function addInline ( oArg) {
 		var oAttr = { x:0, y:0, z:0, url:'' };
-		oAttr = setArgs (oAttr, oArg);
+		$.extend(true, oAttr, oArg);
 		var gObj = $('\
 			<transform translation="' + oAttr.x + ' ' + oAttr.y + ' ' + oAttr.z + '">\
 			<Inline url="'+oAttr.url+'" />\
@@ -237,10 +278,8 @@
 		return gObj;
 	}
 	
-	//-------------------------------------------------------------------------
-	// set cuboid coordinates for graph
-	//-------------------------------------------------------------------------
-
+	/* set cuboid coordinates for graph
+	------------------------------------------------------------------------ */
 	function cuboidGraph( oGraph, c_width, c_height, c_depth )
 	{
 		var x, y, z, dx, dy, dz;	
@@ -270,7 +309,150 @@
 		});
 		return oGraph;
 	}
+	/* draw graph
+	------------------------------------------------------------------------ */
 	
+	function drawGraph ( oArg ) {
+		var oGraph = oArg.data;
+		var width = oArg.width == 'undefined' ? 1 : oArg.width/2;
+		var height = oArg.height == 'undefined' ? 1 : oArg.height/2;
+		var depth = oArg.depth == 'undefined' ? 1 : oArg.depth/2;
+		var graph;
+		var lineCoords = [];
+		$.each(oGraph.node, function( index, node ) {
+			var oAttr = {};
+			oAttr = {	// set default values
+				id: 'n-'+  parseInt(rndNumber( 1, 99999)),
+				x: rndNumber( -width, width ),
+				y: rndNumber( -height, height ),
+				z: rndNumber( -depth, depth ),
+				//radius: rndNumber( .1, .2),
+				color: '#'+Math.floor(Math.random()*16777215).toString(16),
+				label: '',
+				fontFamily:FONT_FAMILY,
+				fontColor:FONT_COLOR,
+				fontSize:FONT_SIZE
+			};
+			$.extend(true, oAttr, oArg); // user's input overwrite defaults
+			$.extend(true, oAttr, node); // node data overwrite user input 
+			lineCoords.push( {id:oAttr.id, x:oAttr.x, y:oAttr.y, z:oAttr.z } );
+			graph = $(graph).add($( drawSphere( oAttr )));
+		});
+		
+		$.each(oGraph.edge, function( index, edge ) {
+			var edgeSource = $.grep(lineCoords, function ( obj ) {
+				return ( obj.id === edge.source );
+			})[0];
+			var edgeTarget = $.grep(lineCoords, function ( obj ) {
+				return ( obj.id === edge.target );
+			})[0];
+			var oAttr = {};
+			oAttr = {
+				id: 'n-'+  parseInt(rndNumber( 1, 99999)),
+				x1: edgeSource.x,
+				y1: edgeSource.y,
+				z1: edgeSource.z,
+				x2: edgeTarget.x,
+				y2: edgeTarget.y,
+				z2: edgeTarget.z,
+				linewidth: 0,
+				color: NODE_COLOR,
+				label: '',
+				fontFamily:FONT_FAMILY,
+				fontColor:FONT_COLOR,
+				fontSize:FONT_SIZE
+			}
+			$.extend(true, oAttr, oArg); // user's input overwrite defaults
+			$.extend(true, oAttr, edge); // edge data overwrite user input
+			graph = $(graph).add($( drawLine( oAttr )));
+		});
+		return graph;
+	}
+
+	/* force directed graph functions
+	--------------------------------------------------------------------------*/
+	/* Force Directed Graph model
+	-----------------------------------------------------------------------------*/
+	// model settings
+	function ForceDirectedSettings ( oSettings )
+	{
+		this.maxIterations = oSettings.maxIterations; 
+		this.timestep = oSettings.timestep;
+		this.timetick = oSettings.timetick;	// animation interval
+		this.damping = oSettings.damping;	// damping constant, nodes lose velocity over time
+		this.k = oSettings.k;	// Hooke's law spring attraction constant
+		this.ke = oSettings.ke;	//Coulomb's repulsion constant
+		this.m = oSettings.mass;	// node mass
+		this.slength = oSettings.slength;	// spring length
+		this.maxCoords = new Vector (Number.NEGATIVE_INFINITY,Number.NEGATIVE_INFINITY,Number.NEGATIVE_INFINITY);
+		this.minCoords = new Vector (Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY);
+	}
+	
+	function ForceDirected( position)
+	{
+		this.m = fdSettings.m;			// mass
+		this.p = position;				// position
+		this.v = new Vector(0, 0, 0);	// velocity
+		this.f = new Vector(0, 0, 0);	// force
+		this.l = [];					// list of links as node indexes (starting from 0)
+
+		ForceDirected.nodes.push(this);
+	}
+	ForceDirected.nodes = [];
+
+
+	ForceDirected.applyForces = function()
+	{
+		var delta;
+		var radius;
+		var directrion;
+		var displacement;
+		var force;
+		
+		ForceDirected.nodes.forEach(function(node1) 
+		{
+			// Coulomb's Law modified with node mass: ke * (x1-x2)/r^2 * 1/m
+			ForceDirected.nodes.forEach(function(node2) 
+			{
+				if (node1 !== node2)
+				{				
+					delta = node1.p.subtract(node2.p);
+					radius = delta.radius();
+					force = delta.divide(radius * radius).multiply(fdSettings.ke)
+					node1.f = node1.f.add(force.divide(node1.m));
+					node2.f = node2.f.subtract(force.divide(node2.m));										
+				}
+			});
+			// Hooke's Law: k * (length-radius) * (x1-x2)/r^2
+			node1.l.forEach(function(node) 
+			{		
+				delta = ForceDirected.nodes[node].p.subtract(node1.p); 
+				radius = delta.radius();
+				displacement = fdSettings.slength - radius;
+				force = delta.divide(radius * radius).multiply(fdSettings.k * displacement);
+				node1.f = node1.f.subtract(force);
+				ForceDirected.nodes[node].f = ForceDirected.nodes[node].f.add(force);
+			});			
+			// update velocity
+			node1.v = node1.v.add(node1.f.multiply(fdSettings.timestep)).multiply(fdSettings.damping);
+			node1.f = new Vector(0,0,0);
+		});
+		
+	}
+		
+	ForceDirected.updatePosition = function(timestep)
+	{
+		ForceDirected.nodes.forEach(function(node) 
+		{
+			node.p = node.p.add(node.v.multiply(timestep));
+			fdSettings.maxCoords = fdSettings.maxCoords.maximum(node.p);
+			fdSettings.minCoords = fdSettings.minCoords.minimum(node.p);
+		});
+	}
+		
+	/* end of Force Directed model
+	------------------------------------------------------------------------ */
+		
 	/* public functions
 	--------------------------------------------------------------------------*/
 
@@ -293,63 +475,96 @@
 	$.fn.addBox = function( oArg ) {
 		this.find('scene').append( $( drawBox( oArg ) ) );
 	};	
+	$.fn.removeShape = function( id ) {
+		$(id).parent().remove();
+	};	
 	
-	
-	/* draw graph
-	------------------------------------------------------------------------ */
 	$.fn.addGraph = function( oArg ) {
-		var oGraph = oArg.data;
-		if ( oArg.type == 'cuboid' ) {
-			oGraph = cuboidGraph( oGraph, oArg.width, oArg.height, oArg.depth );
-		}
+		oAttr = {	// set default values
+				id: 'g-'+  parseInt(rndNumber( 1, 99999)),
+				width: 1,
+				height: 1,
+				depth: 1,
+				forcedirected: {
+					maxIterations: 100,
+					k: 300, 				// Hooke's law spring attraction constant
+					ke: 200,				//Coulomb's repulsion constant
+					mass: 5,				// node mass
+					slength: 1,				// string length
+					timetick:	50,			// animation interval
+					timestep: 0.05,
+					damping: 0.5, 			// damping constant, nodes lose velocity over time
+				}
+		};
+		$.extend(true, oAttr, oArg);
+		var oGraph = oAttr.data;
 		var scene = this;
-		var oAttr = {};
-		var lineCoords = [];
-		$.each(oGraph.node, function( index, node ) {
-			oAttr = {	// set default values
-				id: 'n-'+  parseInt(rndNumber( 1, 99999)),
-				x: rndNumber( -oArg.width/2, oArg.width/2),
-				y: rndNumber( -oArg.height/2, oArg.height/2),
-				z: rndNumber( -	oArg.depth/2, oArg.depth/2),
-				radius: rndNumber( .1, .2),
-				color: '#'+Math.floor(Math.random()*16777215).toString(16),
-				label: '',
-				fontFamily:FONT_FAMILY,
-				fontColor:FONT_COLOR,
-				fontSize:FONT_SIZE
-			};
-			oAttr = setArgs (oAttr, oArg); // user's input overwrite defaults
-			oAttr = setArgs (oAttr, node); // node data overwrite user input
-			lineCoords.push( {id:oAttr.id, x:oAttr.x, y:oAttr.y, z:oAttr.z } );
-			scene.find('scene').append($(drawSphere( oAttr )));
-		});
-		oAttr = {};
-		$.each(oGraph.edge, function( index, edge ) {
-			var edgeSource = $.grep(lineCoords, function ( obj ) {
-				return ( obj.id === edge.source );
-			})[0];
-			var edgeTarget = $.grep(lineCoords, function ( obj ) {
-				return ( obj.id === edge.target );
-			})[0];
-			oAttr = {
-				id: 'n-'+  parseInt(rndNumber( 1, 99999)),
-				x1: edgeSource.x,
-				y1: edgeSource.y,
-				z1: edgeSource.z,
-				x2: edgeTarget.x,
-				y2: edgeTarget.y,
-				z2: edgeTarget.z,
-				linewidth: 0,
-				color: NODE_COLOR,
-				label: '',
-				fontFamily:FONT_FAMILY,
-				fontColor:FONT_COLOR,
-				fontSize:FONT_SIZE
-			}
-			oAttr = setArgs (oAttr, edge); // overwrite defaults
-			scene.find('scene').append($(drawLine( oAttr )));
-		});
-
+		if($('#'+oAttr.id).length == 0) {
+			scene.find('scene').append($(createGroup(oAttr.id)));
+		}
+		$('#'+oAttr.id).empty();	// clear the graph
+		switch ( oAttr.type ) {
+			case 'cuboid':
+				oGraph = cuboidGraph( oGraph, oArg.width, oArg.height, oArg.depth );
+				var graph = drawGraph ( oAttr );
+				$('#'+oAttr.id).append(graph);
+				break;
+			case 'forcedirected':
+				// make a ForceDirected model in a memory
+				oAttr.radius = oAttr.radius ? oAttr.radius : Math.pow((oAttr.width * oAttr.height * oAttr.depth)/2000, 1/3);
+				oAttr.fontSize = oAttr.fontSize ? oAttr.fontSize : oAttr.radius;
+				oAttr.labeloffset = oAttr.labeloffset ? oAttr.labeloffset : oAttr.radius;
+				fdSettings = new ForceDirectedSettings (oAttr.forcedirected);
+				$.each(oGraph.node, function( index, node ) { 	
+					new ForceDirected( new Vector(Math.random(), Math.random(), Math.random()));
+					node.x = 0; node.y = 0; node.z = 0;			
+				});
+				$.each( oGraph.edge, function( i, e ) {
+					var n1_id, n2_id;
+					$.each( oGraph.node, function( i, n ) {
+						if (n.id == e.source) { n1_id = i; }
+						if (n.id == e.target) { n2_id = i; }
+					}); 
+					if(typeof n1_id != 'undefined' && typeof n2_id != 'undefined') {
+						ForceDirected.nodes[n1_id].l.push( n2_id );
+					}	
+				});		
+				// animation time loop
+				var intervalId = setInterval(function() 
+				{
+					ForceDirected.applyForces();
+					ForceDirected.updatePosition(fdSettings.timestep);
+			
+					// calculate kinetic energy of the system
+					var E = 0.0;
+					ForceDirected.nodes.forEach(function(p){
+						var speed = p.v.radius();
+						E += speed * speed;;
+					});
+					fdSettings.maxIterations--;
+					// stop simulation when
+					if ( E < 0.01 || fdSettings.maxIterations == 0)
+					{
+						clearInterval(intervalId);
+					} 		
+					// calc done - draw graph now
+					$.each(oGraph.node, function( index, node ) { 
+						var p = ForceDirected.nodes[index].p.coordTranslate(oAttr.width, oAttr.height, oAttr.depth, fdSettings.minCoords, fdSettings.maxCoords);
+						node.x = p.x;
+						node.y = p.y;
+						node.z = p.z;
+					});		
+					$('#'+oAttr.id).empty();
+					var graph = drawGraph ( oAttr );
+					$('#'+oAttr.id).append(graph);	
+					fdSettings.ready = false;			
+				}, fdSettings.timetick);
+				break;
+			default:
+				var graph = drawGraph ( oAttr );
+				$('#'+oAttr.id).append(graph);
+		}
+		
 	};
 	
 	$.fn.importX3D = function( oArg ) {
@@ -360,6 +575,12 @@
 		width:		"150px",
 		height:		"150px",
 		background:	"#ffffff",
+		backurl:	"",
+		bottomurl:	"",
+		fronturl:	"",
+		lefturl:	"",
+		righturl:	"",
+		topurl:		"",
 		fontSize:	0.8,
 		fontFamily:	'SERIF',
 		sceneAnimation: false,

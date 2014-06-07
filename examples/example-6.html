@@ -11,8 +11,8 @@
 <script>
 $(function() {
 		var myCanvas = $('#3dcanvas').scene3d({
-		width:"400",
-		height:"400px",
+		width:"640",
+		height:"640px",
 		background: "#eeffff",
 		fontFamily: 'Arial',
 		fontSize: 0.4,
@@ -21,6 +21,7 @@ $(function() {
 
 	$.getJSON( "actors.json", function( myGraph ) {	
 		myCanvas.addGraph({
+			id: 'MyGraph',
 			type: 'random',
 			data: myGraph,
 			width: 5,

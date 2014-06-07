@@ -7,13 +7,14 @@
 <script src="http://www.x3dom.org/download/x3dom.js"></script>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/scene3d.jquery.js"></script>
-<link rel='stylesheet' type='text/css' href='../x3dom.css'/>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
 <script>
 $(function() {
 		var myCanvas = $('#3dcanvas').scene3d({
-		width:"500",
-		height:"500",
+		width:"640",
+		height:"640",
 		background: "#eeffff",
+		backurl: "libx3d/skyimage_2267_218457576.jpg",
 		ViewpointPosition: '12 -10 15',
 		ViewpointOrientation: '-0.5 -0.5 -0.1 -0.9',
 	});
@@ -25,7 +26,8 @@ $(function() {
 <body style="font-family: Helvetica, sans-serif;font-size: 12px;">
 <div><a href="index.html">Back to index</a></div>
 <h3>scene3d - importing graphics objects</h3>
-<p>Turbosquid 3D artist: <a href="http://www.turbosquid.com/Search/Artists/cppguy" target="_blank">cppguy</a>
+<p>Turbosquid 3D artist: <a href="http://www.turbosquid.com/Search/Artists/cppguy" target="_blank">cppguy</a><br>
+Background image: NASA Hubble Photo</p>
 
 <div style="float:left;margin:20px;min-height:600px;">
 	<div id="3dcanvas"></div>
@@ -37,6 +39,7 @@ $(function() {
     width:"500",
     height:"500",
     background: "#eeffff",
+    backurl: "libx3d/skyimage_2267_218457576.jpg",
     ViewpointPosition: '12 -10 15',
     ViewpointOrientation: '-0.5 -0.5 -0.1 -0.9',
 	});

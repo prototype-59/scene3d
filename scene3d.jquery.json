@@ -1,11 +1,11 @@
 {
   "name": "scene3d",
   "title": "3D graphics for jQuery",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "jQuery plugin for creating 3D interactive graphics in X3DOM framework",
   "homepage": "https://github.com/prototype-59/scene3d",
-  "demo": "http://www.livereference.org/scene3d/",
-  "docs":"http://www.livereference.org/scene3d/examples",
+  "demo": "http://www.livereference.org/scene3d/examples",
+  "docs":"http://www.livereference.org/scene3d/",
   "bugs":"https://github.com/prototype-59/scene3d/issues",
   "repository": {
     "type": "git",
