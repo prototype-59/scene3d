@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<title>scene3d Force Directed Graph</title>
+<script src="http://www.x3dom.org/download/x3dom.js"></script> 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/scene3d.jquery.js"></script>
+<link rel='stylesheet' type='text/css' href='css/x3dom.css'/>
+<script>
+$(function() {
+	var myCanvas = $('#3dcanvas').scene3d({
+		width:640,
+		height:480,
+		ViewpointPosition: '0 0 100', 
+	});
+	
+	$.getJSON( "actors.json", function( myGraph ) {	
+		myCanvas.addGraph({
+			type: 'forcedirected',
+			forcedirected: { maxIterations: 100, timetick: 25 },
+			id: 'MyGraph',
+			data: myGraph,
+			radius: 2,
+			width: 50,
+			height: 50,
+			depth: 50
+		});
+	});	
+	nodeClickHandler = function( gObj ) { alert ( $(gObj).data('bio') ); }
+	edgeClickHandler = function( gObj ) { alert ( $(gObj).data('movie') ); }
+});
+</script>	 
+</head>
+<body style="font-family: Helvetica, sans-serif;font-size: 12px;">
+<div><a href="index.html">Back to index</a></div>
+<h3>Force Directed Graph</h3>
+<div style="float:left;margin:20px;min-height:600px;">
+	<div id="3dcanvas"></div>
+</div>
+<div>
+<xmp>
+$(function() {
+	var myCanvas = $('#3dcanvas').scene3d({
+		width:640,
+		height:480,
+		ViewpointPosition: '0 0 100', 
+	});
+	
+	$.getJSON( "actors.json", function( myGraph ) {	
+		myCanvas.addGraph({
+			type: 'forcedirected',
+			forcedirected: { maxIterations: 100, timetick: 25 },
+			id: 'MyGraph',
+			data: myGraph,
+			radius: 2,
+			width: 50,
+			height: 50,
+			depth: 50
+		});
+	});	
+	nodeClickHandler = function( gObj ) { alert ( $(gObj).data('bio') ); }
+	edgeClickHandler = function( gObj ) { alert ( $(gObj).data('movie') ); }
+});
+</xmp>
+</div>
+<div>Click on a <strong>node</strong> or on an <strong>edge</strong> for more info. Click here to view <a href="actors.json">actors.json</a> file</div>
+</body>
+</html>
