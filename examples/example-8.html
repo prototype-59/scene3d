@@ -18,7 +18,7 @@ $(function() {
 	
 	$.getJSON( "actors.json", function( myGraph ) {	
 		myCanvas.addGraph({
-			type: 'forcedirected',
+			layout: 'forcedirected',
 			forcedirected: { maxIterations: 100, timetick: 25 },
 			id: 'MyGraph',
 			data: myGraph,
@@ -50,7 +50,7 @@ $(function() {
 	
 	$.getJSON( "actors.json", function( myGraph ) {	
 		myCanvas.addGraph({
-			type: 'forcedirected',
+			layout: 'forcedirected',
 			forcedirected: { maxIterations: 100, timetick: 25 },
 			id: 'MyGraph',
 			data: myGraph,

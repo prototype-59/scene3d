@@ -22,7 +22,7 @@ $(function() {
 	$.getJSON( "actors.json", function( myGraph ) {	
 		myCanvas.addGraph({
 			id: 'MyGraph',
-			type: 'random',
+			layout: 'random',
 			data: myGraph,
 			width: 5,
 			height: 5,
@@ -56,7 +56,7 @@ $(function() {
 
 $.getJSON( "actors.json", function( myGraph ) {	
   myCanvas.addGraph({
-    type: 'random',
+    layout: 'random',
     data: myGraph,
     width: 5,
     height: 5,

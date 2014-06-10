@@ -23,7 +23,7 @@ $(function() {
 	$.getJSON( "miserables.json", function( myGraph ) {	
 		myCanvas.addGraph({
 			id: 'MyGraph',
-			type: 'cuboid',
+			layout: 'cuboid',
 			radius: 2,
 			data: myGraph,
 			width: 100,
@@ -59,7 +59,7 @@ $(function() {
 
   $.getJSON( "miserables.json", function( myGraph ) {	
     myCanvas.addGraph({
-      type: 'cuboid',
+      layout: 'cuboid',
       radius: 2,
       data: myGraph,
       width: 100,

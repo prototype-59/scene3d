@@ -388,7 +388,7 @@
 		this.minCoords = new Vector (Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY);
 	}
 	
-	function ForceDirected( position)
+	function ForceDirected( position )
 	{
 		this.m = fdSettings.m;			// mass
 		this.p = position;				// position
@@ -503,7 +503,7 @@
 			scene.find('scene').append($(createGroup(oAttr.id)));
 		}
 		$('#'+oAttr.id).empty();	// clear the graph
-		switch ( oAttr.type ) {
+		switch ( oAttr.layout ) {
 			case 'cuboid':
 				oGraph = cuboidGraph( oGraph, oArg.width, oArg.height, oArg.depth );
 				var graph = drawGraph ( oAttr );
